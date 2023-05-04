@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 16a03a4e8edb45642934b513ca336615
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - weaponBullet: {instanceID: 0}
+  - weaponFirePosition: {instanceID: 0}
+  - FireSfx: {fileID: 8300000, guid: a1570d79052151b4aa9d0d9c873d36ff, type: 3}
+  - hitParticle: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
