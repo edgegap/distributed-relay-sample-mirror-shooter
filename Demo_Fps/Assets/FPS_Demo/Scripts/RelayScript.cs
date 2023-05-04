@@ -24,7 +24,7 @@ public class RelayScript : NetworkBehaviour
         //For the sake of a demo, I hardcoded Ips
         for (int i = 0; i < numPlayer; i++)
         {
-            Users user = new Users { ip = $"74.15.154.18{i}" };
+            Users user = new Users { ip = $"10.10.10.1{i}" };
             objectToSerialize.users.Add(user);
         }
         // Serialize the IP array to JSON
