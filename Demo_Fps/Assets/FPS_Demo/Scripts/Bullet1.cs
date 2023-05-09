@@ -38,10 +38,10 @@ public class Bullet1 : NetworkBehaviour
                 other.gameObject.GetComponent<StartChallenge>().StartChallengeSpeed();
                 break;
             case "ChallPoints":
-                other.gameObject.GetComponent<StartChallenge>().StartChallengePoints();
+                other.gameObject.GetComponent<StartChallenge>().CmdStartChallengePoints();
                 break;
             case "AimSpeed":
-                other.gameObject.GetComponent<StartChallenge>().StartAimSpeed();
+                other.gameObject.GetComponent<StartChallenge>().CmdStartAimSpeed();
                 //other.gameObject.GetComponent<StartChallenge>().CmdTest();
                 break;
             case "AimPoints":

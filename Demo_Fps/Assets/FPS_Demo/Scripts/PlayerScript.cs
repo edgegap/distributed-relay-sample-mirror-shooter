@@ -50,7 +50,7 @@ namespace QuickStart
         bool canSwapWeapon2;
         bool menuOpen;
         public bool isDead;
-
+        Scene scene;
         #endregion
         void Awake()
         {
@@ -64,7 +64,7 @@ namespace QuickStart
             rb = GetComponent<Rigidbody>();
             munitionScript.UIAmmo1(weapon1.GetComponent<Weapon>().weaponAmmo);
             munitionScript.UIAmmo2(weapon2.GetComponent<Weapon>().weaponAmmo);
-            
+            scene = SceneManager.GetActiveScene();
             // Find all children of this game object
             GameObject[] objectsToDisable = GameObject.FindGameObjectsWithTag("DesactivateOnPlay");
 
@@ -197,7 +197,7 @@ namespace QuickStart
                 if (weapon1.GetComponent<Weapon>().weaponAmmo > 0 && Time.time > nextFire)
                 {
                     nextFire = Time.time + weapon1.GetComponent<Weapon>().weaponCooldown;
-                    Scene scene = SceneManager.GetActiveScene();
+                   
                     if (scene.name == "Main")
                     {
                         weapon1.GetComponent<Weapon>().weaponAmmo -= 1;
@@ -227,7 +227,7 @@ namespace QuickStart
                 if (weapon2.GetComponent<Weapon>().weaponAmmo > 0 && Time.time > nextFire2)
                 {
                     nextFire2 = Time.time + weapon2.GetComponent<Weapon>().weaponCooldown;
-                    Scene scene = SceneManager.GetActiveScene();
+                    
                     if (scene.name == "Main")
                     {
                         weapon2.GetComponent<Weapon>().weaponAmmo -= 1;
@@ -333,7 +333,7 @@ namespace QuickStart
         {
 
             //Destroy that object on weaponPad
-            if (weapon != null) 
+            if (weapon != null && scene.name == "Main") 
             {
                 Destroy(weapon.transform.GetChild(0).gameObject);
             }

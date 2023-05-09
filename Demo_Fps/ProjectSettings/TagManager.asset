@@ -22,6 +22,8 @@ TagManager:
   - AimSpeed
   - AimPoints
   - SpawnPoint
+  - target
+  - targetReverse
   layers:
   - Default
   - TransparentFX

@@ -52,7 +52,7 @@ namespace Edgegap
             userId = _userId;
             sessionId = _sessionId;
             session_ID = _session_ID;
-            return ;
+            return;
         }
         protected override void Awake()
         {
@@ -103,7 +103,6 @@ namespace Edgegap
         // client overwrites to use EdgegapClient instead of KcpClient
         public override void ClientConnect(string address)
         {
-            print("I use the one with string adress");
             // connect to relay address:port instead of the expected server address
             EdgegapClient client = (EdgegapClient)this.client;
             client.userId = userId;
