@@ -14,6 +14,7 @@ public class RelayScript : NetworkBehaviour
     private readonly HttpClient _httpClient = new HttpClient();
     static bool quitGame = false;
     public static string apiUrl = "https://api.edgegap.com";
+
     public async Task SendRequest(string token, int numPlayer)
     {
         // Set the authorization header
@@ -27,6 +28,8 @@ public class RelayScript : NetworkBehaviour
             Users user = new Users { ip = $"10.10.10.1{i}" };
             objectToSerialize.users.Add(user);
         }
+
+        
         // Serialize the IP array to JSON
         var jsonContent = new StringContent(JsonConvert.SerializeObject(objectToSerialize), Encoding.UTF8, "application/json");
         // Send the POST request and get the response

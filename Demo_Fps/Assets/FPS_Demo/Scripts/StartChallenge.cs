@@ -57,7 +57,7 @@ public class StartChallenge : NetworkBehaviour
     double AimPointsTimer = 0;
     public TMP_Text TimeAimPoints;
     public TMP_Text AimPointsScoreTxt;
-    GameObject ChallAimPoints;
+    public GameObject ChallAimPoints;
     List<GameObject> SpawnPointCible = new List<GameObject>() { };
     public List<GameObject> CopieSpawnPointCible;
     [SyncVar(hook = nameof(OnChangeScoreAimPoints))]
@@ -70,10 +70,9 @@ public class StartChallenge : NetworkBehaviour
 
     private void Start()
     {
-        ChallAimPoints = GameObject.Find("ChallAimPoints");
         ChallAimSpeed = GameObject.Find("ChallAimSpeed");
     }
-
+    
     public void StartChallengeSpeed()
     {
         cloneChallSpeed = GameObject.Find("ChallSpeed");
@@ -94,32 +93,42 @@ public class StartChallenge : NetworkBehaviour
             currentTime = newValue;
         }
     }
+    
     [Command(requiresAuthority = false)]
-    public void StartChallengePoints()
+    public void CmdStartChallengePoints()
+    {
+        if (challPointsTimer == 0)
+        {
+            RpcStartChallengePoints();
+            InvokeRepeating("CmdCheckForSpawn", 0.1f, 3f);
+        }
+    }
+    [Command(requiresAuthority = false)]
+    public void CmdCheckForSpawn()
+    {
+        SpawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+       
+        foreach (GameObject spawnPoint in SpawnPoints)
+        {
+            if(spawnPoint.GetComponent<SpawnCollider>().isInCollider == false)
+            {
+                GameObject robot = Instantiate(robotPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+                NetworkServer.Spawn(robot);  
+            }
+            
+            
+
+            
+        }
+    }
+    [ClientRpc]
+    void RpcStartChallengePoints()
     {
         if (challPointsTimer == 0)
         {
             challPointsTimer = 30;
             ChallPointsScore = 0;
             ChallPointsAsStart = true;
-            InvokeRepeating("CheckForSpawn", 0.1f, 3f);
-        }
-    }
-    
-    public void CheckForSpawn()
-    {
-        SpawnPoints = prefabChallPoints.GetComponentsInChildren<Transform>().Where(t => t.gameObject.CompareTag("SpawnPoint")).Select(t => t.gameObject).ToArray();
-       
-        foreach (GameObject spawnPoint in SpawnPoints)
-        {
-            if (spawnPoint.transform.childCount == 0)
-            {
-                GameObject robot = Instantiate(robotPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
-                robot.transform.parent = spawnPoint.transform;
-                NetworkServer.Spawn(robot);
-                
-            }
-           
         }
     }
     public void IncrementScore()
@@ -140,36 +149,32 @@ public class StartChallenge : NetworkBehaviour
             challPointsTimer = newValue;
         }
     }
-    
-    public void StartAimSpeed()
+    #region hide
+    [Command(requiresAuthority = false)]
+    public void CmdStartAimSpeed()
+    {
+        if (AimSpeedTimer == 0)
+        {
+            RpcStartAimSpeed();
+            CmdSpawnNewTargetAimSpeed();
+        }
+    }
+    [ClientRpc]
+    void RpcStartAimSpeed()
     {
         if (AimSpeedTimer == 0)
         {
             AimSpeedAsStart = true;
             AimSpeedTimer = 30;
             AimSpeedScore = 0;
-            GameObject clone = Instantiate(prefabAimSpeed, prefabAimSpeed.transform.position, prefabAimSpeed.transform.rotation, ChallAimSpeed.transform);
-            clone.transform.parent = ChallAimSpeed.transform;
-            clone.transform.localPosition = new Vector3(UnityEngine.Random.Range(4f, -3f), UnityEngine.Random.Range(-1.5f, 1.5f), UnityEngine.Random.Range(5f, -5f));
-            NetworkServer.Spawn(clone);
-            //CmdSpawnNewTargetAimSpeed();
         }
     }
-    [Command]
+    [Command(requiresAuthority = false)]
     public void CmdSpawnNewTargetAimSpeed()
     {
-        print("CmdSpawnNewTargetAimSpeed is Called");
-        //RpcSpawnNewTargetAimSpeed();
-    }
-  
-    public void SpawnNewTargetAimSpeed()
-    {
-        GameObject clone = Instantiate(prefabAimSpeed, prefabAimSpeed.transform.position, prefabAimSpeed.transform.rotation, ChallAimSpeed.transform);
-        clone.transform.parent = ChallAimSpeed.transform;
-        clone.transform.localPosition = new Vector3(UnityEngine.Random.Range(4f, -3f), UnityEngine.Random.Range(-1.5f, 1.5f), UnityEngine.Random.Range(5f, -5f));
-        NetworkServer.Spawn(clone);
-        print("CmdSpawnNewTargetAimSpeed is Called");
-        
+            GameObject clone = Instantiate(prefabAimSpeed, prefabAimSpeed.transform.position, prefabAimSpeed.transform.rotation);
+            clone.transform.localPosition = new Vector3(UnityEngine.Random.Range(10f, 15f), UnityEngine.Random.Range(1f, 4f), UnityEngine.Random.Range(-4.5f, 4.5f));
+            NetworkServer.Spawn(clone);
     }
     void OnChangeScoreAimSpeed(uint oldValue, uint newValue)
     {
@@ -189,27 +194,35 @@ public class StartChallenge : NetworkBehaviour
     {
         AimSpeedScore++;
     }
+
+
     [Command(requiresAuthority = false)]
     public void CmdStartAimPoints()
     {
+        RpcCmdStartAimPoints();
         if (AimPointsTimer == 0)
         {
-            ChallAimPoints = GameObject.Find("ChallAimPoints");
-            AimPointsAsStart = true;
-            AimPointsTimer = 30;
-            AimPointsScore = 0;
             foreach (GameObject spawnPoint in CopieSpawnPointCible)
             {
-                print(ChallAimPoints.transform);
-                GameObject clone = Instantiate(prefabAimPoints, prefabAimPoints.transform.position, prefabAimPoints.transform.rotation, ChallAimPoints.transform);
-                clone.transform.parent = ChallAimPoints.transform;
-                clone.transform.localPosition = new Vector3(UnityEngine.Random.Range(2.4f, -4.5f), UnityEngine.Random.Range(1.3f, -2f), UnityEngine.Random.Range(-5.5f, 5.5f));
+                GameObject clone = Instantiate(prefabAimPoints, prefabAimPoints.transform.position, prefabAimPoints.transform.rotation);
+                clone.transform.localPosition = new Vector3(UnityEngine.Random.Range(-15f, -10f), UnityEngine.Random.Range(0.5f, 4f), UnityEngine.Random.Range(-5.5f, 5.5f));
+                
                 SpawnPointCible.Add(clone);
                 NetworkServer.Spawn(clone);
             }
-            
         }
     }
+    [ClientRpc]
+    void RpcCmdStartAimPoints(){
+        if (AimPointsTimer == 0)
+        {
+            AimPointsAsStart = true;
+            AimPointsTimer = 30;
+            AimPointsScore = 0;
+        }
+    }
+
+
     void OnChangeTimeAimPoints(double oldValue, double newValue)
     {
         if (!isServer)
@@ -228,16 +241,17 @@ public class StartChallenge : NetworkBehaviour
     {
         AimPointsScore++;
     }
-    public void SpawnNewTarget()
+    [Command(requiresAuthority = false)]
+    public void CmdSpawnNewTarget()
     {
+        print("spawn new cible");
         //Random.range cause problem with the library of Math.Random
-        GameObject clone = Instantiate(prefabAimPoints, prefabAimPoints.transform.position, prefabAimPoints.transform.rotation, ChallAimPoints.transform);
-        clone.transform.parent = ChallAimPoints.transform;
-        clone.transform.localPosition = new Vector3(UnityEngine.Random.Range(2.4f, -4.5f), UnityEngine.Random.Range(1.3f, -2f), UnityEngine.Random.Range(-5.5f, 5.5f));
+        GameObject clone = Instantiate(prefabAimPoints, prefabAimPoints.transform.position, prefabAimPoints.transform.rotation);
+        clone.transform.localPosition = new Vector3(UnityEngine.Random.Range(-15f, -10f), UnityEngine.Random.Range(1f, 4f), UnityEngine.Random.Range(-4.5f, 4.5f));
         SpawnPointCible.Add(clone);
         NetworkServer.Spawn(clone);
     }
-
+#endregion
     private void Update()
     {
         if (ChallSpeedAsStart)
@@ -257,6 +271,7 @@ public class StartChallenge : NetworkBehaviour
             }
             
         }
+        
         if (ChallPointsAsStart)
         {
             if(challPointsTimer > 0)
@@ -272,16 +287,12 @@ public class StartChallenge : NetworkBehaviour
                 ChallPointsAsStart = false;
                 challPointsTimer = 0;
                 TimeChallPoints.text = "0.00";
-                foreach (GameObject spawnPoint in SpawnPoints)
+                GameObject[] robots = GameObject.FindGameObjectsWithTag("robot");
+                for (var i = 0; i< robots.Length ;i++)
                 {
-                    if (spawnPoint.transform.childCount != 0)
-                    {
-                        CancelInvoke();
-                        Destroy(spawnPoint.transform.GetChild(0).gameObject);
-                        NetworkServer.Destroy(spawnPoint.transform.GetChild(0).gameObject);
-                        
-                    }
-
+                    CancelInvoke("CmdCheckForSpawn");
+                    Destroy(robots[i]);
+                    NetworkServer.Destroy(robots[i]);
                 }
             }
             
@@ -302,11 +313,12 @@ public class StartChallenge : NetworkBehaviour
                 AimSpeedAsStart = false;
                 AimSpeedTimer = 0;
                 TimeAimSpeed.text = "0.00";
-                for (var i = 0; i< ChallAimSpeed.transform.childCount;i++)
+                GameObject[] targets = GameObject.FindGameObjectsWithTag("targetReverse");
+                for (var i = 0; i< targets.Length ;i++)
                 {
-                    Transform obj = ChallAimSpeed.transform.GetChild(i);
-                    Destroy(obj.gameObject);
-                    NetworkServer.Destroy(obj.gameObject);
+                    
+                    Destroy(targets[i]);
+                    NetworkServer.Destroy(targets[i]);
                 }
             }
 
@@ -343,6 +355,5 @@ public class StartChallenge : NetworkBehaviour
 
 
         }
-
     }
 }

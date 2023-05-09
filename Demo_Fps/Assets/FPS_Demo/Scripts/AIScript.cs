@@ -10,12 +10,8 @@ public class AIScript : NetworkBehaviour
     {
         if(other.gameObject.transform.tag == "bulletBasic")
         {
-            if(gameObject.transform.parent.name == "SpawnPoints")
-            {
-                GameObject reference = GameObject.FindGameObjectWithTag("ChallPoints");
-                reference.GetComponent<StartChallenge>().IncrementScore();
-            }
-            print("destroyRobot");
+            GameObject reference = GameObject.FindGameObjectWithTag("ChallPoints");
+            reference.GetComponent<StartChallenge>().IncrementScore();
             Destroy(gameObject);
             NetworkServer.Destroy(gameObject);
         }

@@ -52,7 +52,7 @@ namespace Edgegap
             userId = _userId;
             sessionId = _sessionId;
             session_ID = _session_ID;
-            return ;
+            return;
         }
         protected override void Awake()
         {
