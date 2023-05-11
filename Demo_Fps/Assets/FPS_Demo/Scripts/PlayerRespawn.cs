@@ -56,9 +56,8 @@ public class PlayerRespawn : NetworkBehaviour
     [ClientRpc]
     void RpcExplosion()
     {
-        print("j'entend ceci");
         gameObject.GetComponent<AudioSource>().PlayOneShot(ExplosionSfx, 0.15f);
-        Instantiate(ExplosionVfx,new Vector3(transform.position.x, 2f, transform.position.z),Quaternion.identity);
+        Instantiate(ExplosionVfx,new Vector3(transform.position.x, transform.position.y +1f, transform.position.z),Quaternion.identity);
     }
 
     [ClientRpc]

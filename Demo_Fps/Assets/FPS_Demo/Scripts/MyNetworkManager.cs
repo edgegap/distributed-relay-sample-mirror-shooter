@@ -7,9 +7,6 @@ public class MyNetworkManager : NetworkManager
 {
     public GameObject HUD;
     public GameObject[] spawnablePrefabs;
-    // Paste your API token here
-    //private string apiToken = "de5ff38d-de97-4233-ac3a-7b670ce2be31";
-
     public override void OnStartServer()
     {
         Debug.Log("Server Started");

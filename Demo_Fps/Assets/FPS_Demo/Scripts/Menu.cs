@@ -16,7 +16,7 @@ namespace QuickStart
         private readonly HttpClient _httpClient = new();
         public TMP_Text sessionID;
         public TMP_Text error;
-       
+        public AudioClip buttonClick;
 
         private void Start()
         {
@@ -28,10 +28,12 @@ namespace QuickStart
             textEditor.text = sessionID.text;
             textEditor.SelectAll();
             textEditor.Copy();
+            gameObject.GetComponent<AudioSource>().PlayOneShot(buttonClick);
         }
 
         public async void LoadMenu()
         {
+            gameObject.GetComponent<AudioSource>().PlayOneShot(buttonClick);
             if (NetworkServer.active && NetworkClient.isConnected)
             {
                 await DeleteSession(_httpClient);
@@ -51,17 +53,16 @@ namespace QuickStart
 
         public void ButtonChangeScene()
         {
+            gameObject.GetComponent<AudioSource>().PlayOneShot(buttonClick);
             if (NetworkServer.active)
             {
                 Scene scene = SceneManager.GetActiveScene();
                 if (scene.name == "Main")
                 {
-                    print("Loading scene <Other>");
                     NetworkManager.singleton.ServerChangeScene("Other");
                 }
                 else
                 {
-                    print("Loading scene <Main>");
                     NetworkManager.singleton.ServerChangeScene("Main");
                 }  
             }
@@ -80,6 +81,7 @@ namespace QuickStart
 
         public async void QuitGame()
         {
+            gameObject.GetComponent<AudioSource>().PlayOneShot(buttonClick);
             if (NetworkServer.active && NetworkClient.isConnected)
             {
                 await DeleteSession(_httpClient);

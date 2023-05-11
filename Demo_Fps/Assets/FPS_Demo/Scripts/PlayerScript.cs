@@ -197,7 +197,11 @@ namespace QuickStart
                 if (weapon1.GetComponent<Weapon>().weaponAmmo > 0 && Time.time > nextFire)
                 {
                     nextFire = Time.time + weapon1.GetComponent<Weapon>().weaponCooldown;
-                   
+                    
+                    if(weapon1.gameObject.TryGetComponent<RocketLauncher>(out RocketLauncher script))
+                    {
+                        script.SubstractRocket(weapon1.GetComponent<Weapon>().weaponAmmo);
+                    }
                     if (scene.name == "Main")
                     {
                         weapon1.GetComponent<Weapon>().weaponAmmo -= 1;
@@ -227,7 +231,10 @@ namespace QuickStart
                 if (weapon2.GetComponent<Weapon>().weaponAmmo > 0 && Time.time > nextFire2)
                 {
                     nextFire2 = Time.time + weapon2.GetComponent<Weapon>().weaponCooldown;
-                    
+                    if(weapon2.gameObject.TryGetComponent<RocketLauncher>(out RocketLauncher script))
+                    {
+                        script.SubstractRocket(weapon2.GetComponent<Weapon>().weaponAmmo);
+                    }
                     if (scene.name == "Main")
                     {
                         weapon2.GetComponent<Weapon>().weaponAmmo -= 1;
@@ -305,14 +312,14 @@ namespace QuickStart
                 GameObject bullet = Instantiate(weapon1.GetComponent<Weapon>().weaponBullet, weapon1.GetComponent<Weapon>().weaponFirePosition.position, weapon1.GetComponent<Weapon>().weaponFirePosition.rotation);
                 bullet.GetComponent<Rigidbody>().velocity = camera.transform.forward * weapon1.GetComponent<Weapon>().weaponSpeed;
                 bullet.GetComponent<Bullet1>().player = gameObject;
-                weapon1.GetComponent<AudioSource>().PlayOneShot(weapon1.GetComponent<Weapon>().FireSfx, 0.6f);
+                weapon1.GetComponent<AudioSource>().PlayOneShot(weapon1.GetComponent<Weapon>().FireSfx, 0.4f);
                 Destroy(bullet, weapon1.GetComponent<Weapon>().weaponLife);
             }
             if (_weapon == 2)
             {
                 GameObject bullet = Instantiate(weapon2.GetComponent<Weapon>().weaponBullet, weapon2.GetComponent<Weapon>().weaponFirePosition.position, weapon2.GetComponent<Weapon>().weaponFirePosition.rotation);
                 bullet.GetComponent<Rigidbody>().velocity = camera.transform.forward * weapon2.GetComponent<Weapon>().weaponSpeed;
-                weapon2.GetComponent<AudioSource>().PlayOneShot(weapon2.GetComponent<Weapon>().FireSfx, 0.6f);
+                weapon2.GetComponent<AudioSource>().PlayOneShot(weapon2.GetComponent<Weapon>().FireSfx, 0.4f);
                 Destroy(bullet, weapon2.GetComponent<Weapon>().weaponLife);
             }
         }
