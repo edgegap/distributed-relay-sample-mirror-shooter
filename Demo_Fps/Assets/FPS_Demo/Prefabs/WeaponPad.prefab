@@ -4925,7 +4925,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3600532655514376536}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.32, y: 12.63, z: -3.32}
+  m_LocalPosition: {x: -1.32, y: 7.04, z: -3.32}
   m_LocalScale: {x: 0.06808432, y: 0.06808432, z: 0.06808432}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4978,6 +4978,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   weapons:
-  - {fileID: 2517652514421653689, guid: 6f5426ff8855c0c4b8111bca52e5af08, type: 3}
   - {fileID: 4466255432614785227, guid: d6d81886b0037024bb34a6eb7662a026, type: 3}
+  - {fileID: 2517652514421653689, guid: 6f5426ff8855c0c4b8111bca52e5af08, type: 3}
   Delay: 10

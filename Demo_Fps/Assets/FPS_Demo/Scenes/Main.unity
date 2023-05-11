@@ -21856,6 +21856,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: WeaponPad (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3600532655514376542, guid: 1a39adfc6d7ab5e4b9eef6e77d254146, type: 3}
+      propertyPath: weapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 4466255432614785227, guid: d6d81886b0037024bb34a6eb7662a026, type: 3}
+    - target: {fileID: 3600532655514376542, guid: 1a39adfc6d7ab5e4b9eef6e77d254146, type: 3}
+      propertyPath: weapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 2517652514421653689, guid: 6f5426ff8855c0c4b8111bca52e5af08, type: 3}
     - target: {fileID: 3600532655514376543, guid: 1a39adfc6d7ab5e4b9eef6e77d254146, type: 3}
       propertyPath: sceneId
       value: 338227745

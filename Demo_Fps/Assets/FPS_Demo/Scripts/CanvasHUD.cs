@@ -18,8 +18,10 @@ public class CanvasHUD : NetworkBehaviour
 
     public InputField inputFieldAddress;
     [Header("Token")]
-    [SerializeField] public static string token = "b2636e53-0a44-479a-9143-22e217ae3ee0";
+
+    [SerializeField] public static string token = "b2636e53-0a44-479a-9143-22e217ae3ee0";//Change the API key because it won't be available
     int numPlayer = 2;
+    public AudioClip buttonClick;
     private void Start()
     {
         
@@ -46,6 +48,7 @@ public class CanvasHUD : NetworkBehaviour
     }
     public void DropdownChange(int val)
     {
+        gameObject.GetComponent<AudioSource>().PlayOneShot(buttonClick);
         switch (val)
         {
             case 0:
@@ -67,6 +70,7 @@ public class CanvasHUD : NetworkBehaviour
     {
         //var token = "b2636e53-0a44-479a-9143-22e217ae3ee0";
         SetupCanvas();
+        gameObject.GetComponent<AudioSource>().PlayOneShot(buttonClick);
         loading.SetActive(true);
         if (!waitingForResponse)
         {
@@ -78,14 +82,9 @@ public class CanvasHUD : NetworkBehaviour
         loading.SetActive(false);
     }
 
-    public void ButtonServer()
-    {
-        NetworkManager.singleton.StartServer();
-        SetupCanvas();
-    }
-
     public async void ButtonClient()
     {
+        gameObject.GetComponent<AudioSource>().PlayOneShot(buttonClick);
         SetupCanvas();
         errorTxt.text = "";
         loading.SetActive(true);

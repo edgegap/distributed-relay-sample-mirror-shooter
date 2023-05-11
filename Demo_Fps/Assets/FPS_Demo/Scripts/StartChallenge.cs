@@ -254,28 +254,11 @@ public class StartChallenge : NetworkBehaviour
 #endregion
     private void Update()
     {
-        if (ChallSpeedAsStart)
-        {
-            GameObject[] robotsChallSpeed = cloneChallSpeed.GetComponentsInChildren<Transform>().Where(t => t.gameObject.CompareTag("robot")).Select(t => t.gameObject).ToArray();
-            if(robotsChallSpeed.Length != 0)
-            {
-                currentTime += Time.deltaTime;
-                syncTimer = currentTime;
-                currentTime = Math.Round(currentTime, 2);
-                TimeChallSpeed.text = currentTime.ToString();
-            }
-            else
-            {
-                ChallSpeedAsStart = false;
-                Destroy(cloneChallSpeed);
-            }
-            
-        }
-        
         if (ChallPointsAsStart)
         {
             if(challPointsTimer > 0)
             {
+                
                 challPointsTimer -= 1 * Time.deltaTime;
                 challPointsTimerSync = challPointsTimer;
                 challPointsTimer = Math.Round(challPointsTimer, 2);
@@ -284,9 +267,8 @@ public class StartChallenge : NetworkBehaviour
             }
             else
             {
-                ChallPointsAsStart = false;
-                challPointsTimer = 0;
-                TimeChallPoints.text = "0.00";
+                CmdChallPointStart();
+                
                 GameObject[] robots = GameObject.FindGameObjectsWithTag("robot");
                 for (var i = 0; i< robots.Length ;i++)
                 {
@@ -310,9 +292,7 @@ public class StartChallenge : NetworkBehaviour
             }
             else
             {
-                AimSpeedAsStart = false;
-                AimSpeedTimer = 0;
-                TimeAimSpeed.text = "0.00";
+                RpcAimSpeedStart();
                 GameObject[] targets = GameObject.FindGameObjectsWithTag("targetReverse");
                 for (var i = 0; i< targets.Length ;i++)
                 {
@@ -336,9 +316,7 @@ public class StartChallenge : NetworkBehaviour
             }
             else
             {
-                AimPointsAsStart = false;
-                AimPointsTimer = 0;
-                TimeAimPoints.text = "0.00";
+                CmdAimPointsStart();
                 for (int i = SpawnPointCible.Count - 1; i >= 0; i--)
                 {
                     // get the object at index i
@@ -355,5 +333,42 @@ public class StartChallenge : NetworkBehaviour
 
 
         }
+    }
+    [Command(requiresAuthority = false)]
+    void CmdChallPointStart()
+    {
+        RpcChallPointStart();
+    }
+    [ClientRpc]
+    void RpcChallPointStart()
+    {
+        ChallPointsAsStart = false;
+        challPointsTimer = 0;
+        TimeChallPoints.text = "0.00";
+    }
+    
+    [Command(requiresAuthority = false)]
+    void CmdAimSpeedStart()
+    {
+        RpcAimSpeedStart();
+    }
+    [ClientRpc]
+    void RpcAimSpeedStart()
+    {
+        AimSpeedAsStart = false;
+        AimSpeedTimer = 0;
+        TimeAimSpeed.text = "0.00";
+    }
+    [Command(requiresAuthority = false)]
+    void CmdAimPointsStart()
+    {
+        RpcAimPointsStart();
+    }
+    [ClientRpc]
+    void RpcAimPointsStart()
+    {
+        AimPointsAsStart = false;
+        AimPointsTimer = 0;
+        TimeAimPoints.text = "0.00";
     }
 }
