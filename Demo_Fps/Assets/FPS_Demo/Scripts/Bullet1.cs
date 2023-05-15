@@ -1,6 +1,6 @@
 using Mirror;
 using UnityEngine;
-
+using Mirror;
 public class Bullet1 : NetworkBehaviour
 {
     public GameObject hitEffectPrefab;

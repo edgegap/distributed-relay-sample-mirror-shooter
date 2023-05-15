@@ -4980,4 +4980,6 @@ MonoBehaviour:
   weapons:
   - {fileID: 4466255432614785227, guid: d6d81886b0037024bb34a6eb7662a026, type: 3}
   - {fileID: 2517652514421653689, guid: 6f5426ff8855c0c4b8111bca52e5af08, type: 3}
+  - {fileID: 2517652514421653689, guid: 6f5426ff8855c0c4b8111bca52e5af08, type: 3}
+  - {fileID: 850771451350642471, guid: 97260e64da7c4514c8d49b8df06ac7c2, type: 3}
   Delay: 10

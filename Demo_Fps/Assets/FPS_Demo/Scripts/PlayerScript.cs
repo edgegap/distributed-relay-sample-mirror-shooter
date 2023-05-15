@@ -49,6 +49,7 @@ namespace QuickStart
         bool canSwapWeapon1;
         bool canSwapWeapon2;
         bool menuOpen;
+        bool isRefreshed = true;
         public bool isDead;
         Scene scene;
         #endregion
@@ -167,13 +168,46 @@ namespace QuickStart
                     WeaponsFiring();
                 
                     //handle weapon swaping
-                    if (Input.GetKeyDown(KeyCode.Alpha1) && onPad)
+                    if (Input.GetKeyDown(KeyCode.Alpha1) && onPad && isRefreshed)
                     {
-                        canSwapWeapon1 = true;
+                        isRefreshed = false;
+                        Invoke("Refresh", 1f);
+                        Vector3 startPoint = transform.position;
+                        Vector3 endPoint = startPoint + transform.forward * 2f; // Adjust the distance as needed
+                        float radius = 1f; // Adjust the radius as needed
+                        
+                        Collider[] colliders = new Collider[5]; // Adjust the size as needed
+                        int numColliders = Physics.OverlapCapsuleNonAlloc(startPoint, endPoint, radius, colliders);
+
+                        for (int i = 0; i < numColliders; i++)
+                        {
+                            if (colliders[i].gameObject.transform.tag == "WeaponPad" && colliders[i].gameObject.transform.childCount > 0 )
+                            {
+                                canSwapWeapon1 = true;
+                                break;
+                            }
+                        }
                     }
-                    if (Input.GetKeyDown(KeyCode.Alpha2) && onPad)
+                    if (Input.GetKeyDown(KeyCode.Alpha2) && onPad && isRefreshed)
                     {
-                        canSwapWeapon2 = true;
+                        isRefreshed = false;
+                        Invoke("Refresh", 1f);
+                        Vector3 startPoint = transform.position;
+                        Vector3 endPoint = startPoint + transform.forward * 2f; // Adjust the distance as needed
+                        float radius = 1f; // Adjust the radius as needed
+                        
+                        Collider[] colliders = new Collider[5]; // Adjust the size as needed
+                        int numColliders = Physics.OverlapCapsuleNonAlloc(startPoint, endPoint, radius, colliders);
+
+                        for (int i = 0; i < numColliders; i++)
+                        {
+                            if (colliders[i].gameObject.transform.tag == "WeaponPad" && colliders[i].gameObject.transform.childCount > 0 )
+                            {
+                                canSwapWeapon2 = true;
+                                break;
+                            }
+                        }
+                        
                     }
                 }
                 if (Input.GetKeyDown(KeyCode.Escape) && !menuOpen)
@@ -190,6 +224,11 @@ namespace QuickStart
             }
         }
         #region weaponFire
+        void Refresh()
+        {
+            isRefreshed = true;
+        }
+
         void WeaponsFiring()
         {
             if (Input.GetButton("Fire1")) //Fire gun Left
@@ -338,7 +377,6 @@ namespace QuickStart
         [ClientRpc]
         void RpcChangeWeapon(GameObject weapon,string name, bool isRight)
         {
-
             //Destroy that object on weaponPad
             if (weapon != null && scene.name == "Main") 
             {
@@ -378,12 +416,6 @@ namespace QuickStart
                 //update weapon ammo
                 munitionScript.UIAmmo1(weapon1.GetComponent<Weapon>().weaponAmmo);
             }
-            
-
-
-            //TODO
-            //Add SFX VFX
-            //Add animations / or add explosion force
 
         }
         private void OnCollisionEnter(Collision collision)
@@ -398,26 +430,28 @@ namespace QuickStart
         {
             if (other.GetComponent<Collider>().gameObject.tag == "WeaponPad" && other.transform.childCount > 0 && isLocalPlayer)
             {
+                print("I call replaceImg false");
                 replaceImg.enabled = true;
                 onPad = true;
-                if (canSwapWeapon1)
+                if (canSwapWeapon1 && other.gameObject.transform.GetChild(0) != null)
                 {
                     canSwapWeapon1 = false;
                     GameObject weaponpad = other.gameObject;
                     //Get the name of the weapon on pad
                     name = weaponpad.transform.GetChild(0).gameObject.name;
-                    Invoke("HideUI", 0.1f);
                     CmdChangeWeapon(weaponpad, name, false);
+                    Invoke("HideUI", 0.4f);
                     other.gameObject.GetComponentInParent<WeaponSpawn>().CmdWeaponTaken();
                 }
-                if (canSwapWeapon2)
+                if (canSwapWeapon2 && other.gameObject.transform.GetChild(0) != null)
                 {
                     canSwapWeapon2 = false;
                     GameObject weaponpad = other.gameObject;
                     //Get the name of the weapon on pad
                     name = weaponpad.transform.GetChild(0).gameObject.name;
-                    Invoke("HideUI", 0.1f);
                     CmdChangeWeapon(weaponpad, name, true);
+                    Invoke("HideUI", 0.4f);
+                    
                     other.gameObject.GetComponentInParent<WeaponSpawn>().CmdWeaponTaken();
                 }
             }
@@ -434,6 +468,7 @@ namespace QuickStart
         void HideUI()
         {
             //hide img replace weapon
+            print("Hide UI");
             replaceImg.enabled = false;
         }
 

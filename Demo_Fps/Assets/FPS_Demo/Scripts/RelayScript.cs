@@ -12,7 +12,6 @@ public class RelayScript : NetworkBehaviour
 {
     public EdgegapTransport _EdgegapTransport = EdgegapTransport.GetInstance();
     private readonly HttpClient _httpClient = new HttpClient();
-    static bool quitGame = false;
     public static string apiUrl = "https://api.edgegap.com";
 
     public async Task SendRequest(string token, int numPlayer)
