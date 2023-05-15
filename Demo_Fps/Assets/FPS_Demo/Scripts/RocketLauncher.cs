@@ -8,19 +8,10 @@ public class RocketLauncher : NetworkBehaviour
     public List <GameObject> rockets;
     public void SubstractRocket(int bullet)
     {
-        CmdSubstractRocket(bullet);
-        
-    }
-    [Command(requiresAuthority = false)]
-    public void CmdSubstractRocket(int bullet)
-    {
-        RpcSubstractRocket(bullet);
-        
-    }
-    [ClientRpc]
-    void RpcSubstractRocket(int bullet)
-    {
+        // CmdSubstractRocket(bullet);
         int num  = 7 - bullet;
-        rockets[num].SetActive(false);
+        // rockets[num].SetActive(false);
+        print("Make active false this rocket " + rockets[num]);
+        
     }
 }
