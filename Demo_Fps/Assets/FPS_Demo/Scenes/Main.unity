@@ -11287,6 +11287,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4287037876746062835, guid: 1a39adfc6d7ab5e4b9eef6e77d254146, type: 3}
   m_PrefabInstance: {fileID: 948670033}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &959401691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 959401692}
+  - component: {fileID: 959401693}
+  m_Layer: 8
+  m_Name: liquid (3)
+  m_TagString: poison
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &959401692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959401691}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2, y: -7.72, z: -0.8}
+  m_LocalScale: {x: 1.8177176, y: 0.8127159, z: 2.7840598}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1863279428}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &959401693
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959401691}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 40, y: 2, z: 30}
+  m_Center: {x: 0, y: 0.0070752497, z: 0}
 --- !u!1 &974207285
 GameObject:
   m_ObjectHideFlags: 0
@@ -37169,6 +37214,7 @@ Transform:
   - {fileID: 1663095373}
   - {fileID: 109606850}
   - {fileID: 1866734033}
+  - {fileID: 959401692}
   m_Father: {fileID: 766285146}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

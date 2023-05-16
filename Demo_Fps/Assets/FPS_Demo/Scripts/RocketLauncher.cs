@@ -10,8 +10,7 @@ public class RocketLauncher : NetworkBehaviour
     {
         // CmdSubstractRocket(bullet);
         int num  = 7 - bullet;
-        // rockets[num].SetActive(false);
-        print("Make active false this rocket " + rockets[num]);
+        rockets[num].SetActive(false);
         
     }
 }
