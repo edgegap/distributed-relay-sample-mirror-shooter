@@ -19,7 +19,7 @@ public class CanvasHUD : NetworkBehaviour
     public InputField inputFieldAddress;
     [Header("Token")]
 
-    [SerializeField] public static string token = "b2636e53-0a44-479a-9143-22e217ae3ee0";//Change the API key because it won't be available
+    [SerializeField] public static string token = "INSERT RELAY API TOKEN HERE";//Change the API key because it won't be available
     int numPlayer = 2;
     public AudioClip buttonClick;
     private void Start()
