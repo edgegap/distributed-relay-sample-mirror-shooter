@@ -68,7 +68,6 @@ public class CanvasHUD : NetworkBehaviour
 
     public async void ButtonHost()
     {
-        //var token = "b2636e53-0a44-479a-9143-22e217ae3ee0";
         SetupCanvas();
         gameObject.GetComponent<AudioSource>().PlayOneShot(buttonClick);
         loading.SetActive(true);
