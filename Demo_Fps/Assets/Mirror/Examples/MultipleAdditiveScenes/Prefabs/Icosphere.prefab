@@ -128,7 +128,7 @@ Transform:
   m_GameObject: {fileID: 5513112217680870098}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5513112217680897776}
@@ -183,6 +183,7 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+  timelineOffset: 0
 --- !u!114 &8774992865005872063
 MonoBehaviour:
   m_ObjectHideFlags: 0
